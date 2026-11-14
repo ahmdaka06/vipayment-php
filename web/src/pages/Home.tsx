@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import GameCard from "@/components/GameCard";
@@ -82,7 +80,7 @@ export default function HomePage() {
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/lacak"
+              to="/lacak"
               className="inline-flex items-center justify-center rounded-xl border border-white/10 px-4 py-3 text-sm font-medium text-slate-200 transition hover:bg-white/5"
             >
               Lacak invoice
@@ -165,7 +163,7 @@ export default function HomePage() {
           <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-5 py-4 text-sm text-rose-200">
             Gagal memuat katalog. Pastikan API berjalan di{" "}
             <code className="rounded bg-black/30 px-1.5 py-0.5">
-              NEXT_PUBLIC_API_URL
+              VITE_API_URL
             </code>
             .
           </div>

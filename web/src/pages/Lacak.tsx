@@ -1,7 +1,4 @@
-"use client";
-
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import StatusBadge from "@/components/StatusBadge";
 import {
@@ -12,7 +9,7 @@ import {
 } from "@/lib/api";
 
 export default function TrackPage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +25,7 @@ export default function TrackPage() {
     }
 
     if (/^inv-/i.test(value)) {
-      router.push(`/invoice/${encodeURIComponent(value.toUpperCase())}`);
+      navigate(`/invoice/${encodeURIComponent(value.toUpperCase())}`);
       return;
     }
 
@@ -90,7 +87,7 @@ export default function TrackPage() {
               results.map((order) => (
                 <Link
                   key={order.invoice}
-                  href={`/invoice/${order.invoice}`}
+                  to={`/invoice/${order.invoice}`}
                   className="block rounded-xl border border-white/10 bg-white/[0.02] p-4 transition hover:border-white/20 hover:bg-white/[0.05]"
                 >
                   <div className="flex items-center justify-between gap-3">

@@ -18,9 +18,8 @@
 
 # Web app
 /web/node_modules/
-/web/.next/
+/web/dist/
 /web/.env.local
-/web/out/
 *.tsbuildinfo
 
 # IDEs

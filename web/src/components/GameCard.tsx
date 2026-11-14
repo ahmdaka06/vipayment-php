@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { fileUrl, type Game } from "@/lib/api";
 
 const GRADIENTS = [
@@ -35,7 +35,7 @@ export default function GameCard({
 
   return (
     <Link
-      href={`/game/${game.slug}`}
+      to={`/game/${game.slug}`}
       className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-4 transition hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.06] ${
         soldOut ? "opacity-60" : ""
       }`}
@@ -46,7 +46,6 @@ export default function GameCard({
         }`}
       >
         {logo ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={logo}
             alt={game.name}

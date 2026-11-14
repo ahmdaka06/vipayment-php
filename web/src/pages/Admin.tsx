@@ -1,5 +1,3 @@
-"use client";
-
 import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import StatusBadge from "@/components/StatusBadge";

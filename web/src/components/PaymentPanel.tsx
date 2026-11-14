@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import {
   API_BASE,
@@ -185,7 +183,6 @@ export default function PaymentPanel({
 
           {qrisUrl && (
             <div className="rounded-xl border border-white/10 bg-white p-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={qrisUrl}
                 alt="QRIS pembayaran"

@@ -84,9 +84,10 @@ services:
       dockerfile: web/Dockerfile
       args:
         # Must be reachable from the browser, not from inside the container.
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://topup.ttmi.my.id}
+        VITE_API_URL: ${VITE_API_URL:-https://topup.ttmi.my.id}
     ports:
-      - "3001:3000"
+      # Loopback only: the host nginx proxies the storefront on 3001.
+      - "127.0.0.1:3001:80"
     depends_on:
       - gateway
     restart: unless-stopped

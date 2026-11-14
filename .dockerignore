@@ -6,11 +6,11 @@
 target
 **/target
 
-# Node / Next.js build output
+# Node / Vite build output
 node_modules
 **/node_modules
-.next
-**/.next
+dist
+**/dist
 **/*.tsbuildinfo
 
 # Runtime data (SQLite database, uploaded payment proofs)

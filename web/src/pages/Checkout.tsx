@@ -1,7 +1,4 @@
-"use client";
-
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { Link, useParams } from "react-router-dom";
 import useSWR from "swr";
 import OrderSummary from "@/components/OrderSummary";
 import PaymentPanel from "@/components/PaymentPanel";
@@ -30,7 +27,7 @@ export default function CheckoutPage() {
     return (
       <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-5 py-6 text-sm text-rose-200">
         Invoice tidak ditemukan.{" "}
-        <Link href="/" className="underline">
+        <Link to="/" className="underline">
           Kembali ke katalog
         </Link>
         .
@@ -54,7 +51,7 @@ export default function CheckoutPage() {
           </p>
         </div>
         <Link
-          href={`/invoice/${order.invoice}`}
+          to={`/invoice/${order.invoice}`}
           className="rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-300 transition hover:bg-white/5"
         >
           Lihat status pesanan
@@ -68,7 +65,7 @@ export default function CheckoutPage() {
             Simpan invoice{" "}
             <span className="font-mono text-slate-200">{order.invoice}</span>.
             Kamu bisa melacak pesanan kapan saja lewat menu{" "}
-            <Link href="/lacak" className="text-cyan-300 underline">
+            <Link to="/lacak" className="text-cyan-300 underline">
               Lacak Invoice
             </Link>
             .

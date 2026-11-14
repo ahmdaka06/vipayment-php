@@ -1,7 +1,4 @@
-"use client";
-
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useRef, useState } from "react";
 import useSWR from "swr";
 import {
@@ -17,7 +14,7 @@ import {
 export default function GamePage() {
   const params = useParams<{ slug: string }>();
   const slug = typeof params?.slug === "string" ? params.slug : "";
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const { data, error, isLoading } = useSWR<{
     game: GameInfo;
@@ -75,7 +72,7 @@ export default function GamePage() {
         }),
       });
 
-      router.push(`/checkout/${order.invoice}`);
+      navigate(`/checkout/${order.invoice}`);
     } catch (submitError) {
       setFormError(errorMessage(submitError));
       setSubmitting(false);
@@ -102,7 +99,7 @@ export default function GamePage() {
     return (
       <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 px-5 py-6 text-sm text-rose-200">
         Game tidak ditemukan atau katalog belum tersedia.{" "}
-        <Link href="/" className="underline">
+        <Link to="/" className="underline">
           Kembali ke katalog
         </Link>
         .
@@ -113,7 +110,7 @@ export default function GamePage() {
   return (
     <form onSubmit={submit} className="space-y-6">
       <div className="flex items-center gap-2 text-xs text-slate-500">
-        <Link href="/" className="hover:text-slate-300">
+        <Link to="/" className="hover:text-slate-300">
           Katalog
         </Link>
         <span>/</span>
@@ -123,7 +120,6 @@ export default function GamePage() {
       <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5">
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-xl font-black text-white">
           {fileUrl(game.icon_url) ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={fileUrl(game.icon_url)!}
               alt={game.name}

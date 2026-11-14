@@ -1,7 +1,4 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useLocation } from "react-router-dom";
 
 const LINKS = [
   { href: "/", label: "Katalog" },
@@ -9,12 +6,12 @@ const LINKS = [
 ];
 
 export default function Header() {
-  const pathname = usePathname();
+  const { pathname } = useLocation();
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/5 bg-[#060a12]/80 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4">
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5">
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-sm font-black text-white shadow-lg shadow-indigo-500/20">
             TK
           </span>
@@ -33,7 +30,7 @@ export default function Header() {
             return (
               <Link
                 key={link.href}
-                href={link.href}
+                to={link.href}
                 className={`rounded-lg px-3 py-2 transition ${
                   active
                     ? "bg-white/10 text-white"

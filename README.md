@@ -273,7 +273,7 @@ This repository also ships a self-hosted web top-up app built on top of the SDK.
 The backend is split into small services behind a single public gateway:
 
 ```
-web/ (Next.js)  ──►  gateway :8080  ──┬──►  catalog-service :8081  (catalog.db, logos)
+web/ (React SPA) ──►  gateway :8080  ──┬──►  catalog-service :8081  (catalog.db, logos)
    /api/v1/*                          ├──►  order-service   :8082  (orders.db, uploads)
    /uploads/*                         └──►  fulfillment-service :8083  (stateless)
    /logos/*                                     └──► VIP Reseller API (via the SDK)
@@ -330,7 +330,7 @@ cp apps/fulfillment-service/.env.example apps/fulfillment-service/.env
 # 3. Run the web app (point it at the gateway)
 cd web
 npm install
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8080 npm run dev
+VITE_API_URL=http://127.0.0.1:8080 npm run dev
 # open http://localhost:3000  (admin: http://localhost:3000/admin)
 ```
 
@@ -363,7 +363,7 @@ examples, and the full deploy guide for `https://vipsdk.ttmi.my.id` are in
    the API prefix is `/api/v1`:
 
    ```js
-   // Next.js example
+   // Browser example
    const API_BASE = "https://api.example.com";
    await fetch(`${API_BASE}/api/v1/games`);
 
@@ -408,8 +408,8 @@ The repository ships a Compose setup with five backend services plus the web app
 | File | Purpose |
 | --- | --- |
 | `Dockerfile.service` | Shared multi-stage Rust build; `SERVICE_BIN`/`SERVICE_PORT` build args; runs as a non-root user on `debian:bookworm-slim` |
-| `web/Dockerfile` | Next.js standalone build; runs as a non-root user on `node:24-alpine` |
-| `docker-compose.yml` | `gateway` on `:8089`, `catalog`/`order`/`fulfillment` internal only, `web` on `:3001`, volumes `catalog-data` + `order-data` |
+| `web/Dockerfile` | Vite build of the React SPA, served as static files by `nginx:alpine` |
+| `docker-compose.yml` | `gateway` on `:8089`, `catalog`/`order`/`fulfillment` internal only, `web` on `127.0.0.1:3001`, volumes `catalog-data` + `order-data` |
 
 ```bash
 # 1. Service environments (provider credentials, ADMIN_TOKEN, payment mode)
@@ -444,13 +444,13 @@ docker compose down                                            # stop (keeps vol
 docker compose down -v                                         # stop and delete data
 ```
 
-`NEXT_PUBLIC_API_URL` is inlined into the browser bundle at build time, so it
-must be the URL the **browser** can reach (not a container hostname). Override it
-when building for a real domain:
+`VITE_API_URL` is inlined into the browser bundle at build time, so it must be
+the URL the **browser** can reach (not a container hostname). Override it when
+building for a real domain:
 
 ```bash
-NEXT_PUBLIC_API_URL=https://api.example.com docker compose build web
-NEXT_PUBLIC_API_URL=https://api.example.com docker compose up -d
+VITE_API_URL=https://api.example.com docker compose build web
+VITE_API_URL=https://api.example.com docker compose up -d
 ```
 
 For a public deployment also set `WEB_ORIGIN` in `apps/gateway/.env` to the
@@ -481,9 +481,9 @@ cached in `LOGO_DIR`. Check these in order:
    `https://<api-host>/logos/<file>` directly: a 404 means the reverse proxy does
    not forward `/logos/` (and `/uploads/`) to the API.
 4. **Was the storefront built with the public API URL?**
-   `NEXT_PUBLIC_API_URL` is inlined into the browser bundle. If it is still
+   `VITE_API_URL` is inlined into the browser bundle. If it is still
    `http://localhost:8080`, a remote browser requests logos from its own machine.
-   Rebuild: `NEXT_PUBLIC_API_URL=https://api.example.com docker compose build web`.
+   Rebuild: `VITE_API_URL=https://api.example.com docker compose build web`.
 
 The admin **Katalog & saldo** tab also reports the number of logos stored by the
 last manual sync.
